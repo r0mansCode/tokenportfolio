@@ -1,6 +1,6 @@
 // src/app/api/auth/refresh-session/route.ts
 import { getServerSession } from "next-auth/next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma";
 import { NextAuthOptions } from "next-auth";

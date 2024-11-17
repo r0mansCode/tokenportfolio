@@ -40,7 +40,7 @@ export default function PortfolioPageInner() {
   const [walletTokens, setWalletTokens] = useState<any>(null);
   const [transactionHistory, setTransactionHistory] = useState<any>(null);
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   // useEffect(() => {
   //   initializeMoralis();

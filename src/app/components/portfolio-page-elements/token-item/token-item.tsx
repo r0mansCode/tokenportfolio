@@ -48,7 +48,7 @@ export default function TokenItem({
           ? purchasePrice.toFixed(calculateFixedInt(purchasePrice))
           : "N/A"}{" "}
         - ROI:{" "}
-        {/* <span
+        <span
           className={`${s.tokenROI} ${
             roi !== undefined && roi !== null
               ? roi >= 0
@@ -58,7 +58,7 @@ export default function TokenItem({
           }`}
         >
           {roi !== undefined && roi !== null ? roi.toFixed(2) : "N/A"}%
-        </span> */}
+        </span>
       </p>
     </div>
   );

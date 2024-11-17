@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Update import
 
 export default function SuccessPage() {
-  const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
