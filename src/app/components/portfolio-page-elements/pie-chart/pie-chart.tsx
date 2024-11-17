@@ -24,7 +24,6 @@ const PieChartComponent: React.FC<PieChartProps> = ({ tokenBalances }) => {
     cx,
     cy,
     midAngle,
-    innerRadius,
     outerRadius,
     percent,
     index,
