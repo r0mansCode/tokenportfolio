@@ -1,0 +1,69 @@
+/* portfolio-page-inner.module.scss */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8e7ea;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #f48fb1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #ec407a;
+}
+
+.section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #d81b60;
+  display: flex;
+  align-items: center;
+}
+
+.clipboardIcon {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.clipboardIcon:hover {
+  color: #d81b60; /* Darker pink on hover */
+}
+
+.tokenSection {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tokenSection h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #d81b60;
+}

@@ -1,0 +1,50 @@
+.tokenItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tokenInfo {
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.tokenName {
+  font-weight: bold;
+  color: #333;
+}
+
+.tokenBalance {
+  color: #555;
+}
+
+.tokenPrice {
+  color: #888;
+}
+
+.tokenValue {
+  font-weight: bold;
+  color: #333;
+}
+
+.tokenPerformance {
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.tokenROI {
+  font-weight: bold;
+}
+
+.positiveROI {
+  color: green;
+}
+
+.negativeROI {
+  color: red;
+}
