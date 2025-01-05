@@ -1,3 +1,4 @@
+import AuthButtons from "./components/auth-buttons/auth-buttons";
 import s from "./page.module.scss";
 import Link from "next/link";
 
@@ -11,6 +12,7 @@ export default async function Home() {
             Proceed To Portfolio Page
           </Link>
         </div>
+        <AuthButtons />
       </main>
     </div>
   );
