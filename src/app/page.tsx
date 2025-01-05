@@ -1,3 +1,5 @@
+"use client";
+
 import AuthButtons from "./components/auth-buttons/auth-buttons";
 import s from "./page.module.scss";
 import Link from "next/link";
