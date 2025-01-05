@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import s from "./page.module.scss";
 import "./globals.css";
 import { NavBar } from "./components/nav-bar/Nav";
+import { SessionProviderWrapper } from "./components/session-provider-wrapper/session-provider-wrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +18,9 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <NavBar />
-        <div className={s.appContainer}>{children}</div>
+        <SessionProviderWrapper>
+          <div className={s.appContainer}>{children}</div>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
