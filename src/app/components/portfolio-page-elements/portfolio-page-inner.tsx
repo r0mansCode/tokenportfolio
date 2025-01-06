@@ -22,7 +22,7 @@ import RoiChart from "./roi-chart/roi-chart";
 import { useSession } from "next-auth/react";
 import AuthButtons from "../auth-buttons/auth-buttons";
 import CheckoutButton from "../stripe-checkout-button/stripe-checkout-button";
-// import { initializeMoralis } from "@/lib/moralis";
+// import { initializeMoralis } from "@/lib/moralis"; //REMOVE COMMENT
 import { getPurchasePrices } from "@/utils/get-purchase-price";
 import { calculateROIs } from "@/utils/calculateROIs";
 
@@ -44,7 +44,7 @@ export default function PortfolioPageInner() {
 
   // useEffect(() => {
   //   initializeMoralis();
-  // }, []);
+  // }, []); //REMOVE COMMENT
 
   const fetchTransactionHistory = async (account: any) => {
     try {
@@ -103,7 +103,7 @@ export default function PortfolioPageInner() {
   };
 
   const handleWalletConnectClick = async () => {
-    // connectWalletHandler();
+    // connectWalletHandler(); //REMOVE COMMENT
   };
 
   const fetchEtherPrice = async () => {
@@ -255,13 +255,19 @@ export default function PortfolioPageInner() {
   return (
     <>
       <AuthButtons />
-      <CheckoutButton />
-      <button onClick={handleCancelSubscription}>Cancel Subscription</button>
+      <div className={s.checkoutButtonsContainer}>
+        {!session?.user?.subscribed && <CheckoutButton />}
+        {session?.user?.subscribed && (
+          <button onClick={handleCancelSubscription}>
+            Cancel Subscription
+          </button>
+        )}
+      </div>
       {session && (
         <div className={s.container}>
-          {/* <button className={s.button} onClick={handleWalletConnectClick}>
+          <button className={s.button} onClick={handleWalletConnectClick}>
             {connButtonText}
-          </button> */}
+          </button>
           <div className={s.section}>
             <h3>
               Address:{" "}
