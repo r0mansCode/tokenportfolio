@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import s from "./auth-buttons.module.scss";
 
 export default function AuthButtons() {
   const { data: session, status } = useSession();
@@ -12,10 +13,10 @@ export default function AuthButtons() {
 
   if (!session) {
     return (
-      <>
+      <div className={s.authContainer}>
         <p>You need to sign in to view this page.</p>
         <button onClick={() => signIn("google")}>Sign in with Google</button>
-      </>
+      </div>
     );
   }
 

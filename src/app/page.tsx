@@ -14,7 +14,9 @@ export default async function Home() {
             Proceed To Portfolio Page
           </Link>
         </div>
-        <AuthButtons />
+        <section className={s.sectionContainer}>
+          <AuthButtons />
+        </section>
       </main>
     </div>
   );
