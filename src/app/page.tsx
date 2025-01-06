@@ -5,6 +5,7 @@ import s from "./page.module.scss";
 import Link from "next/link";
 
 export default async function Home() {
+  console.log("var", process.env.DATABASE_URL);
   return (
     <div className={s.page}>
       <main className={s.main}>
