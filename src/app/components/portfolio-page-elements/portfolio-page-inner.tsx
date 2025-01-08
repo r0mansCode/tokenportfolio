@@ -123,7 +123,7 @@ export default function PortfolioPageInner() {
   const fetchAvailableAssets = async (account: any, provider: any) => {
     try {
       const tokenData = await Promise.all(
-        walletTokens.map(async (token: any) => {
+        walletTokens.slice(0, 3).map(async (token: any) => {
           try {
             const tokenContract = new ethers.Contract(
               token.token_address,
@@ -265,9 +265,9 @@ export default function PortfolioPageInner() {
       </div>
       {session && (
         <div className={s.container}>
-          <button className={s.button} onClick={handleWalletConnectClick}>
+          {/* <button className={s.button} onClick={handleWalletConnectClick}>
             {connButtonText}
-          </button>
+          </button> */}
           <div className={s.section}>
             <h3>
               Address:{" "}
