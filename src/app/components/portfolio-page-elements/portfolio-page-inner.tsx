@@ -22,7 +22,7 @@ import RoiChart from "./roi-chart/roi-chart";
 import { useSession } from "next-auth/react";
 import AuthButtons from "../auth-buttons/auth-buttons";
 import CheckoutButton from "../stripe-checkout-button/stripe-checkout-button";
-// import { initializeMoralis } from "@/lib/moralis"; //REMOVE COMMENT
+import { initializeMoralis } from "@/lib/moralis";
 import { getPurchasePrices } from "@/utils/get-purchase-price";
 import { calculateROIs } from "@/utils/calculateROIs";
 
@@ -42,9 +42,9 @@ export default function PortfolioPageInner() {
 
   const { data: session } = useSession();
 
-  // useEffect(() => {
-  //   initializeMoralis();
-  // }, []); //REMOVE COMMENT
+  useEffect(() => {
+    initializeMoralis();
+  }, []);
 
   const fetchTransactionHistory = async (account: any) => {
     try {
@@ -103,7 +103,7 @@ export default function PortfolioPageInner() {
   };
 
   const handleWalletConnectClick = async () => {
-    // connectWalletHandler(); //REMOVE COMMENT
+    connectWalletHandler();
   };
 
   const fetchEtherPrice = async () => {
