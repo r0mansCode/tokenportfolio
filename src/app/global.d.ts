@@ -5,3 +5,9 @@ interface Window {
     on?: (...args: any[]) => void;
   };
 }
+
+interface Navigator {
+  brave?: {
+    isBrave: () => Promise<boolean>;
+  };
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import s from "./page.module.scss";
-import "./globals.css";
+import "./globals.scss";
 import { NavBar } from "./components/nav-bar/Nav";
 import { SessionProviderWrapper } from "./components/session-provider-wrapper/session-provider-wrapper";
 

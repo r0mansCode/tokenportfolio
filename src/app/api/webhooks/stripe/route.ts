@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  // apiVersion: "2022-11-15",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature") as string;
@@ -26,24 +24,44 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    console.log("Customer session: =======>", session);
+  switch (event.type) {
+    case "checkout.session.completed": {
+      const session = event.data.object as Stripe.Checkout.Session;
 
-    // Update user's subscribed status in your database
-    if (session.customer_email) {
-      await prisma.user.update({
-        where: { email: session.customer_email },
-        data: { subscribed: true },
-      });
+      // Update user's subscribed status in your database
+      if (session.customer_details?.email) {
+        await prisma.user.update({
+          where: { email: session.customer_details?.email },
+          data: { subscribed: true },
+        });
 
-      const user = await prisma.user.update({
-        where: { email: session.customer_email },
-        data: { subscribed: true },
-      });
-
-      console.log("Updated user:", user);
+        const user = await prisma.user.update({
+          where: { email: session.customer_details?.email },
+          data: { subscribed: true },
+        });
+      }
+      break;
     }
+    case "customer.subscription.deleted": {
+      const subscription = event.data.object as Stripe.Subscription;
+      const customerId = subscription.customer as string;
+
+      // Retrieve the customer to get the email
+      const customer = await stripe.customers.retrieve(customerId);
+
+      if ((customer as Stripe.Customer).email) {
+        const customerEmail = (customer as Stripe.Customer).email as string;
+
+        // Update user's subscribed status in your database
+        await prisma.user.update({
+          where: { email: customerEmail },
+          data: { subscribed: false },
+        });
+      }
+      break;
+    }
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
 
   return NextResponse.json({ received: true });

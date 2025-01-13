@@ -25,6 +25,7 @@ import CheckoutButton from "../stripe-checkout-button/stripe-checkout-button";
 import { initializeMoralis } from "@/lib/moralis";
 import { getPurchasePrices } from "@/utils/get-purchase-price";
 import { calculateROIs } from "@/utils/calculateROIs";
+import { isBrave } from "@/utils/checkForBraveBrowser";
 
 export default function PortfolioPageInner() {
   const [errorMessage, setErrorMessage] = useState<any>(null);
@@ -123,7 +124,7 @@ export default function PortfolioPageInner() {
   const fetchAvailableAssets = async (account: any, provider: any) => {
     try {
       const tokenData = await Promise.all(
-        walletTokens.slice(0, 3).map(async (token: any) => {
+        walletTokens.map(async (token: any) => {
           try {
             const tokenContract = new ethers.Contract(
               token.token_address,
@@ -243,13 +244,24 @@ export default function PortfolioPageInner() {
   const userEmail = session?.user?.email;
 
   const handleCancelSubscription = async () => {
-    await fetch("/api/cancel-subscription", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userEmail }), // Pass userEmail in the body
-    });
+    try {
+      const response = await fetch("/api/cancel-subscription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userEmail }), // Pass userEmail in the body
+      });
+
+      if (response.ok) {
+        alert("Your subscription has been canceled.");
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message || "Something went wrong"}`);
+      }
+    } catch (error) {
+      alert(`Error: ${(error as Error).message}`);
+    }
   };
 
   return (
@@ -265,9 +277,28 @@ export default function PortfolioPageInner() {
       </div>
       {session && (
         <div className={s.container}>
-          {/* <button className={s.button} onClick={handleWalletConnectClick}>
-            {connButtonText}
-          </button> */}
+          {/* <div className={s.connectWalletRow}>
+            <button className={s.button} onClick={handleWalletConnectClick}>
+              {connButtonText}
+            </button>
+            {isBrave() && (
+              <div className={s.infoIcon}>
+                ?
+                <div className={s.infoText}>
+                  Using Brave? You may face issues connecting MetaMask. Follow
+                  these
+                  <a
+                    href='https://support.metamask.io/configure/wallet/using-metamask-wallet-in-brave-browser/'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    instructions
+                  </a>{" "}
+                  to resolve it.
+                </div>
+              </div>
+            )}
+          </div> */}
           <div className={s.section}>
             <h3>
               Address:{" "}

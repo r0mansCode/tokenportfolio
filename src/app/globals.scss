@@ -1,13 +1,8 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "./variables.scss";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* src\app\globals.css */
+:root {
+  --background: $alphaColor;
 }
 
 html,
@@ -17,19 +12,19 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: $betaColor;
+  background: $alphaColor;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 button {
-  background-color: #ea4c89;
+  background-color: $primaryColor;
   border-radius: 8px;
   border-style: none;
   box-sizing: border-box;
-  color: #ffffff;
+  color: $alphaColor;
   cursor: pointer;
   display: inline-block;
   font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
@@ -50,11 +45,15 @@ button {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
 
 button:hover,
 button:focus {
-  background-color: #f082ac;
+  background-color: $secondaryColor;
 }
 
 * {
@@ -68,8 +67,8 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//   html {
+//     color-scheme: dark;
+//   }
+// }

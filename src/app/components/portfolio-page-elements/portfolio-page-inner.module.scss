@@ -57,3 +57,49 @@
   justify-content: center;
   padding: 16px;
 }
+
+.connectWalletRow {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.infoText {
+  display: none;
+  position: absolute;
+  width: 260px;
+  background: gray;
+  color: white;
+  border-radius: 8px 8px 8px 0;
+  padding: 12px 16px;
+  bottom: 20px;
+  left: 20px;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.infoIcon {
+  position: relative;
+  color: #ea4c89;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid #ea4c89;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-weight: 600;
+  margin-left: 2px;
+  cursor: pointer;
+
+  &:hover {
+    .infoText {
+      display: block;
+    }
+  }
+}
