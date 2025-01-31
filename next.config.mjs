@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+import path from "path";
+
 const nextConfig = {
   env: {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -12,6 +15,10 @@ const nextConfig = {
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  },
+  sassOptions: {
+    includePaths: [path.resolve("./src/styles"), path.resolve("./src/fonts")], // Adjust the path if necessary
+    prependData: `@import "variables";`, // Optional: Inject variables globally
   },
 };
 
