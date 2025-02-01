@@ -135,6 +135,9 @@ export default function PortfolioPageInner() {
       const tokenData = await Promise.all(
         walletTokens.map(async (token: any) => {
           try {
+            if (!token?.verified_contract) {
+              return;
+            }
             const tokenContract = new ethers.Contract(
               token.token_address,
               ERC20_ABI,
