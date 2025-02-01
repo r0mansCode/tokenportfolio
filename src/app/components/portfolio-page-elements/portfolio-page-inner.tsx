@@ -275,7 +275,7 @@ export default function PortfolioPageInner() {
           </button>
         )}
       </div>
-      {session && (
+      {session && session?.user?.subscribed && (
         <div className={s.container}>
           {/* <div className={s.connectWalletRow}>
             <button className={s.button} onClick={handleWalletConnectClick}>

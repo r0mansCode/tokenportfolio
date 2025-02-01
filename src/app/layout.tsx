@@ -3,6 +3,14 @@ import s from "./page.module.scss";
 import "./globals.scss";
 import { NavBar } from "./components/nav-bar/Nav";
 import { SessionProviderWrapper } from "./components/session-provider-wrapper/session-provider-wrapper";
+import localFont from 'next/font/local';
+
+const sora = localFont({
+  src: '../styles/fonts/Sora-Regular.ttf',
+  weight: '400', // Adjust based on your font's weight
+  style: 'normal',
+  variable: '--font-sora',
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +25,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <NavBar />
+        <NavBar customClassName={sora.className}/>
         <SessionProviderWrapper>
-          <div className={s.appContainer}>{children}</div>
+          <div className={`${s.appContainer} ${sora.className}`}>{children}</div>
         </SessionProviderWrapper>
       </body>
     </html>

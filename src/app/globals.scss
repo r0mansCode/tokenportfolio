@@ -9,7 +9,6 @@ body {
 body {
   color: $bgPrimary;
   background: $bgSecondary;
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,7 +21,7 @@ button {
   color: $TextColor;
   cursor: pointer;
   display: inline-block;
-  font-family: "Sora-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: sora;
   font-size: 16px;
   font-weight: 500;
   height: 40px;
@@ -70,4 +69,15 @@ a {
 h1,
 h2 {
   color: $TextColor;
+}
+
+h1 {
+  font-size: 48px;
+  letter-spacing: 1px;
+  line-height: 58px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 300;
 }

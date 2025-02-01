@@ -2,6 +2,13 @@
 
 .bannerContainer {
   background-color: $bgPrimary;
-  padding: 32px 24px;
+  padding: 48px 32px;
   box-shadow: -18px 17px 23px 5px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 24px;
+
 }
