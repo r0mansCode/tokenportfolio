@@ -26,20 +26,29 @@ import { initializeMoralis } from "@/lib/moralis";
 import { getPurchasePrices } from "@/utils/get-purchase-price";
 import { calculateROIs } from "@/utils/calculateROIs";
 import { isBrave } from "@/utils/checkForBraveBrowser";
+import { useTokenStore } from "@/store/useTokenStore";
 
 export default function PortfolioPageInner() {
   const [errorMessage, setErrorMessage] = useState<any>(null);
-  const [defaultAccount, setDefaultAccount] = useState<any>(null);
-  const [userBalance, setUserBalance] = useState<any>(null);
-  const [tokenBalances, setTokenBalances] = useState<any>([]);
   const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [provider, setProvider] = useState<any>(null);
-  const [etherPriceInUSD, setEtherPriceInUSD] = useState(0); // Ether price in USD
-  const [totalPortfolioValue, setTotalPortfolioValue] = useState(0); // Total portfolio value
   const [purchasePrices, setPurchasePrices] = useState<any>({}); // Store purchase prices
   const [rois, setROIs] = useState<any>({}); // Store ROIs
   const [walletTokens, setWalletTokens] = useState<any>(null);
   const [transactionHistory, setTransactionHistory] = useState<any>(null);
+
+  const {
+    tokenBalances,
+    setTokenBalances,
+    defaultAccount,
+    setDefaultAccount,
+    totalPortfolioValue,
+    setTotalPortfolioValue,
+    userBalance,
+    setUserBalance,
+    etherPriceInUSD,
+    setEtherPriceInUSD,
+  } = useTokenStore();
 
   const { data: session } = useSession();
 
@@ -84,7 +93,7 @@ export default function PortfolioPageInner() {
     if (
       window.ethereum &&
       !!window.ethereum.request &&
-      defaultAccount == null
+      !defaultAccount
     ) {
       setProvider(new ethers.providers.Web3Provider(window.ethereum));
 
@@ -187,16 +196,16 @@ export default function PortfolioPageInner() {
   };
 
   useEffect(() => {
-    if (defaultAccount && provider && !!walletTokens) {
+    if (!!defaultAccount && provider && !!walletTokens) {
       provider.getBalance(defaultAccount).then((balanceResult: any) => {
-        const formattedEtherBalance = ethers.utils.formatEther(balanceResult);
+        const formattedEtherBalance = Number(ethers.utils.formatEther(balanceResult));
         setUserBalance(formattedEtherBalance);
       });
     }
   }, [defaultAccount, provider, walletTokens]);
 
   useEffect(() => {
-    if (userBalance && tokenBalances.length < 1 && defaultAccount && provider) {
+    if (!!userBalance && tokenBalances.length < 1 && !!defaultAccount && provider) {
       fetchAvailableAssets(defaultAccount, provider);
     }
   }, [userBalance, defaultAccount, provider, tokenBalances]);
@@ -219,7 +228,7 @@ export default function PortfolioPageInner() {
   }, [defaultAccount]);
 
   useEffect(() => {
-    if (tokenBalances.length > 0 && defaultAccount) {
+    if (tokenBalances.length > 0 && !!defaultAccount) {
       fetchTransactionHistory(defaultAccount);
     }
   }, [tokenBalances, defaultAccount]);
