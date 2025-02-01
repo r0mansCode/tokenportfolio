@@ -1,9 +1,11 @@
+@import "variables";
+
 .navContainer {
   display: flex;
   gap: 12px;
   width: 100%;
   padding: 16px 24px;
-  background-color: #ea4c89;
+  background-color: $primaryColor;
   color: white;
   box-shadow: 1px 1px 5px rgba(80, 80, 80, 0.364);
 }

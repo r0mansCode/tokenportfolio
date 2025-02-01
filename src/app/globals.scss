@@ -1,9 +1,4 @@
-@import "./variables.scss";
-
-/* src\app\globals.css */
-:root {
-  --background: $alphaColor;
-}
+@import "variables";
 
 html,
 body {
@@ -12,24 +7,22 @@ body {
 }
 
 body {
-  color: $betaColor;
-  background: $alphaColor;
-  font-family: Arial, Helvetica, sans-serif;
+  color: $bgPrimary;
+  background: $bgSecondary;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 button {
   background-color: $primaryColor;
-  border-radius: 8px;
+  border-radius: 24px;
   border-style: none;
   box-sizing: border-box;
-  color: $alphaColor;
+  color: $TextColor;
   cursor: pointer;
   display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  font-size: 14px;
+  font-family: sora;
+  font-size: 16px;
   font-weight: 500;
   height: 40px;
   line-height: 20px;
@@ -72,3 +65,19 @@ a {
 //     color-scheme: dark;
 //   }
 // }
+
+h1,
+h2 {
+  color: $TextColor;
+}
+
+h1 {
+  font-size: 48px;
+  letter-spacing: 1px;
+  line-height: 58px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 300;
+}
