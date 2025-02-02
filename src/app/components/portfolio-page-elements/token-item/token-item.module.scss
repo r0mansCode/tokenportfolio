@@ -5,12 +5,17 @@
   margin-bottom: 12px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.tokenInfo {
-  font-size: 1rem;
-  margin: 0;
-  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+
+  & > div {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
 }
 
 .tokenName {
@@ -31,11 +36,11 @@
   color: #333;
 }
 
-.tokenPerformance {
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.5;
-}
+// .tokenPerformance {
+//   font-size: 0.9rem;
+//   margin: 0;
+//   line-height: 1.5;
+// }
 
 .tokenROI {
   font-weight: bold;
@@ -47,4 +52,9 @@
 
 .negativeROI {
   color: red;
+}
+
+.tokenLogo {
+  height: 24px;
+  border-radius: 4px;
 }

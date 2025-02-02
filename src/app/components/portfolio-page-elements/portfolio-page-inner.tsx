@@ -90,11 +90,7 @@ export default function PortfolioPageInner() {
   };
 
   const connectWalletHandler = () => {
-    if (
-      window.ethereum &&
-      !!window.ethereum.request &&
-      !defaultAccount
-    ) {
+    if (window.ethereum && !!window.ethereum.request && !defaultAccount) {
       setProvider(new ethers.providers.Web3Provider(window.ethereum));
 
       window.ethereum
@@ -167,6 +163,7 @@ export default function PortfolioPageInner() {
               balance: formattedBalance,
               price,
               valueInUSD: formattedValueInUSD,
+              logo: token.logo,
             };
           } catch (error) {
             console.error(
@@ -201,14 +198,21 @@ export default function PortfolioPageInner() {
   useEffect(() => {
     if (!!defaultAccount && provider && !!walletTokens) {
       provider.getBalance(defaultAccount).then((balanceResult: any) => {
-        const formattedEtherBalance = Number(ethers.utils.formatEther(balanceResult));
+        const formattedEtherBalance = Number(
+          ethers.utils.formatEther(balanceResult)
+        );
         setUserBalance(formattedEtherBalance);
       });
     }
   }, [defaultAccount, provider, walletTokens]);
 
   useEffect(() => {
-    if (!!userBalance && tokenBalances.length < 1 && !!defaultAccount && provider) {
+    if (
+      !!userBalance &&
+      tokenBalances.length < 1 &&
+      !!defaultAccount &&
+      provider
+    ) {
       fetchAvailableAssets(defaultAccount, provider);
     }
   }, [userBalance, defaultAccount, provider, tokenBalances]);
@@ -343,11 +347,12 @@ export default function PortfolioPageInner() {
                 {tokenBalances.map((token: any, index: number) => (
                   <TokenItem
                     key={index}
-                    name={token.name}
-                    symbol={token.symbol}
-                    balance={token.balance}
-                    price={token.price}
-                    valueInUSD={token.valueInUSD}
+                    // name={token.name}
+                    // symbol={token.symbol}
+                    // balance={token.balance}
+                    // price={token.price}
+                    // valueInUSD={token.valueInUSD}
+                    token={token}
                     purchasePrice={purchasePrices[token.symbol] || null}
                     roi={rois[token.symbol] || null}
                   />

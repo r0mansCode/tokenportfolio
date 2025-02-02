@@ -2,64 +2,70 @@
 
 import React from "react";
 import s from "./token-item.module.scss";
+import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 
 interface TokenItemProps {
-  name: string;
-  symbol: string;
-  balance: number;
-  price: number;
-  valueInUSD: number;
+  token: any;
   purchasePrice?: number | null;
   roi?: number | null;
 }
 
 export default function TokenItem({
-  name,
-  symbol,
-  balance,
-  price,
-  valueInUSD,
+  token,
   purchasePrice,
   roi,
 }: TokenItemProps) {
   const calculateFixedInt = (priceInDollars: number | string) =>
     Number(priceInDollars) < 1 ? 6 : 2;
+
+  const { name, symbol, balance, price, valueInUSD, logo } = token || {};
+  const applyRoiClass = () => {
+    if (!!roi) {
+      return roi >= 0 ? s.positiveROI : s.negativeROI;
+    }
+    if (!roi) {
+      return "";
+    }
+  };
+
   return (
     <div className={s.tokenItem}>
-      <p className={s.tokenInfo}>
+      <div>
+        <img src={logo} className={s.tokenLogo} />
         <span className={s.tokenName}>
-          {name} ({symbol}):
-        </span>{" "}
+          {name} ({symbol})
+        </span>
+      </div>
+
+      <div>
         <span className={s.tokenBalance}>
-          {Number(balance).toFixed(4)} {symbol}
-        </span>{" "}
-        <span className={s.tokenPrice}>
-          (Current Price: $
-          {!!price ? Number(price).toFixed(calculateFixedInt(price)) : "N/A"})
-        </span>{" "}
-        -{" "}
+          Balance: {Number(balance).toFixed(4)} {symbol}
+        </span>
         <span className={s.tokenValue}>
           Value: ${!!valueInUSD && valueInUSD.toFixed(2)}
         </span>
-      </p>
-      <p className={s.tokenPerformance}>
-        Purchase Price: $
-        {purchasePrice
-          ? purchasePrice.toFixed(calculateFixedInt(purchasePrice))
-          : "N/A"}{" "}
-        - ROI:{" "}
-        <span
-          className={`${s.tokenROI} ${
-            roi !== undefined && roi !== null
-              ? roi >= 0
-                ? s.positiveROI
-                : s.negativeROI
-              : ""
-          }`}
-        >
-          {roi !== undefined && roi !== null ? roi.toFixed(2) : "N/A"}%
-        </span>
-      </p>
+      </div>
+
+      <div className={s.tokenPrice}>
+        (Current Price: $
+        {!!price ? Number(price).toFixed(calculateFixedInt(price)) : "N/A"})
+      </div>
+
+      {!!purchasePrice && (
+        <>
+          <div>
+            Purchase Price: $
+            {purchasePrice.toFixed(calculateFixedInt(purchasePrice))}
+          </div>
+          {!!roi && (
+            <div className={`${s.tokenROI} ${applyRoiClass()}`}>
+              ROI:
+              <FaArrowDownLong />
+              {roi.toFixed(2)}%
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
