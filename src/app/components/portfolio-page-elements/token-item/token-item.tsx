@@ -3,9 +3,10 @@
 import React from "react";
 import s from "./token-item.module.scss";
 import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
+import { Token } from "@/store/useTokenStore";
 
 interface TokenItemProps {
-  token: any;
+  token: Token;
   purchasePrice?: number | null;
   roi?: number | null;
 }
@@ -43,7 +44,7 @@ export default function TokenItem({
           Balance: {Number(balance).toFixed(4)} {symbol}
         </span>
         <span className={s.tokenValue}>
-          Value: ${!!valueInUSD && valueInUSD.toFixed(2)}
+          Value: ${!!valueInUSD && Number(valueInUSD).toFixed(2)}
         </span>
       </div>
 

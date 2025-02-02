@@ -13,7 +13,8 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28ED1"];
 
 const PieChartComponent: React.FC<PieChartProps> = ({ tokenBalances }) => {
   const data = tokenBalances.map((token) => {
-    const roundedValue = parseFloat(token.valueInUSD.toFixed(2));
+    const { valueInUSD } = token;
+    const roundedValue = parseFloat(Number(valueInUSD).toFixed(2));
     return {
       name: token.symbol,
       value: roundedValue,
@@ -37,9 +38,9 @@ const PieChartComponent: React.FC<PieChartProps> = ({ tokenBalances }) => {
       <text
         x={x}
         y={y}
-        fill='black'
+        fill="black"
         textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline='central'
+        dominantBaseline="central"
       >
         {`${data[index].name}: ${(percent * 100).toFixed(0)}%`}
       </text>
@@ -48,16 +49,16 @@ const PieChartComponent: React.FC<PieChartProps> = ({ tokenBalances }) => {
 
   return (
     <div className={styles.container}>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}
-            dataKey='value'
-            nameKey='name'
-            cx='50%'
-            cy='50%'
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
             outerRadius={100}
-            fill='#8884d8'
+            fill="#8884d8"
             label={renderCustomizedLabel}
           >
             {data.map((_, index) => (

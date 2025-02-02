@@ -32,14 +32,13 @@ export default function PortfolioPageInner() {
   const [errorMessage, setErrorMessage] = useState<any>(null);
   const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [provider, setProvider] = useState<any>(null);
-  const [purchasePrices, setPurchasePrices] = useState<any>({}); // Store purchase prices
-  const [rois, setROIs] = useState<any>({}); // Store ROIs
   const [walletTokens, setWalletTokens] = useState<any>(null);
   const [transactionHistory, setTransactionHistory] = useState<any>(null);
 
   const {
     tokenBalances,
     setTokenBalances,
+    loadTokenBalances,
     defaultAccount,
     setDefaultAccount,
     totalPortfolioValue,
@@ -48,13 +47,40 @@ export default function PortfolioPageInner() {
     setUserBalance,
     etherPriceInUSD,
     setEtherPriceInUSD,
+    rois,
+    setROIs,
+    loadROIs,
+    purchasePrices,
+    setPurchasePrices,
+    loadPurchasePrices,
   } = useTokenStore();
 
   const { data: session } = useSession();
+  const userEmail = session?.user?.email;
+  const userId = session?.user?.id;
+
+  const updateROIs = async (newROIs: Record<string, number>, userId) => {
+    await setROIs(newROIs, userId);
+  };
+
+  const updatePurchaseOrices = async (
+    newPurchasePrices: Record<string, number>,
+    userId
+  ) => {
+    await setPurchasePrices(newPurchasePrices, userId);
+  };
 
   useEffect(() => {
     initializeMoralis();
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      loadTokenBalances(userId);
+      loadROIs(userId);
+      loadPurchasePrices(userId);
+    }
+  }, [userId]);
 
   const fetchTransactionHistory = async (account: any) => {
     try {
@@ -86,7 +112,7 @@ export default function PortfolioPageInner() {
 
   const fetchPurchasePrices = async (transactionHistory) => {
     const prices = await getPurchasePrices(transactionHistory);
-    setPurchasePrices(prices);
+    updatePurchaseOrices(prices, userId);
   };
 
   const connectWalletHandler = () => {
@@ -126,7 +152,11 @@ export default function PortfolioPageInner() {
     fetchEtherPrice();
   }, []);
 
-  const fetchAvailableAssets = async (account: any, provider: any) => {
+  const fetchAvailableAssets = async (
+    account: any,
+    provider: any,
+    userId: number
+  ) => {
     try {
       const tokenData = await Promise.all(
         walletTokens.map(async (token: any) => {
@@ -187,8 +217,7 @@ export default function PortfolioPageInner() {
         const nonZeroTokens = tokenData.filter(
           (token) => token && parseFloat(token.balance) > 0
         );
-
-        setTokenBalances([...nonZeroTokens, ethBalanceData]);
+        setTokenBalances([...nonZeroTokens, ethBalanceData], userId);
       }
     } catch (error) {
       setErrorMessage("Failed to fetch assets using MetaMask.");
@@ -211,11 +240,12 @@ export default function PortfolioPageInner() {
       !!userBalance &&
       tokenBalances.length < 1 &&
       !!defaultAccount &&
-      provider
+      provider &&
+      !!userId
     ) {
-      fetchAvailableAssets(defaultAccount, provider);
+      fetchAvailableAssets(defaultAccount, provider, userId);
     }
-  }, [userBalance, defaultAccount, provider, tokenBalances]);
+  }, [userBalance, defaultAccount, provider, tokenBalances, userId]);
 
   useEffect(() => {
     if (tokenBalances.length > 0 && etherPriceInUSD > 0 && userBalance) {
@@ -247,17 +277,21 @@ export default function PortfolioPageInner() {
   }, [transactionHistory]);
 
   useEffect(() => {
-    if (!!transactionHistory && !!tokenBalances && !!purchasePrices) {
+    if (
+      !!transactionHistory &&
+      !!tokenBalances &&
+      !!purchasePrices &&
+      !!userId
+    ) {
       const ROIs = calculateROIs(
         transactionHistory,
         tokenBalances,
         purchasePrices
       );
-      setROIs(ROIs);
+      console.log("ROIs", ROIs);
+      updateROIs(ROIs, userId);
     }
-  }, [transactionHistory, tokenBalances, purchasePrices]);
-
-  const userEmail = session?.user?.email;
+  }, [transactionHistory, tokenBalances, purchasePrices, userId]);
 
   const handleCancelSubscription = async () => {
     try {
@@ -304,9 +338,9 @@ export default function PortfolioPageInner() {
                   Using Brave? You may face issues connecting MetaMask. Follow
                   these
                   <a
-                    href='https://support.metamask.io/configure/wallet/using-metamask-wallet-in-brave-browser/'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    href="https://support.metamask.io/configure/wallet/using-metamask-wallet-in-brave-browser/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     instructions
                   </a>{" "}
@@ -347,11 +381,6 @@ export default function PortfolioPageInner() {
                 {tokenBalances.map((token: any, index: number) => (
                   <TokenItem
                     key={index}
-                    // name={token.name}
-                    // symbol={token.symbol}
-                    // balance={token.balance}
-                    // price={token.price}
-                    // valueInUSD={token.valueInUSD}
                     token={token}
                     purchasePrice={purchasePrices[token.symbol] || null}
                     roi={rois[token.symbol] || null}

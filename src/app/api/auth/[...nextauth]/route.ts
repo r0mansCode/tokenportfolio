@@ -11,7 +11,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // Using JWT-based sessions
   },
   callbacks: {
     async signIn({ profile }) {
@@ -33,20 +33,26 @@ const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token }) {
-      // Fetch the latest user data from the database on every token creation or refresh
+      // Fetch the latest user data from the database
       if (token.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: token.email },
         });
         if (dbUser) {
-          token.subscribed = dbUser.subscribed; // Sync the token with the latest subscribed status
+          token.subscribed = dbUser.subscribed; // Add subscribed status to token
+          token.id = dbUser.id; // Add user ID to token
         }
       }
       return token;
     },
     async session({ session, token }) {
-      // Sync the session user data with the updated token information
-      session.user.subscribed = token.subscribed;
+      // Sync session with token data
+      if (token.id) {
+        session.user.id = token.id; // Add user ID to session
+      }
+      if (token.subscribed !== undefined) {
+        session.user.subscribed = token.subscribed; // Sync subscribed status
+      }
       return session;
     },
   },

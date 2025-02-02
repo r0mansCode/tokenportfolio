@@ -21,6 +21,8 @@ model User {
   updatedAt      DateTime @updatedAt
   subscribed     Boolean  @default(false)
   tokenBalances TokenBalance[]
+  ROIs ROI[]
+  PurchasePrices PurchasePrices[]
 }
 
 model TokenBalance {
@@ -33,4 +35,20 @@ model TokenBalance {
   price     Decimal
   valueInUSD Decimal
   logo      String?
+}
+
+model ROI {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenSymbol String @unique
+  roi       Decimal
+}
+
+model PurchasePrices {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenSymbol String @unique
+  price     Decimal
 }
