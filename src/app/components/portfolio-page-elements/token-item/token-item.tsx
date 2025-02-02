@@ -19,9 +19,10 @@ export default function TokenItem({
     Number(priceInDollars) < 1 ? 6 : 2;
 
   const { name, symbol, balance, price, valueInUSD, logo } = token || {};
+  const isRoiPositive = !!roi && roi >= 0;
   const applyRoiClass = () => {
     if (!!roi) {
-      return roi >= 0 ? s.positiveROI : s.negativeROI;
+      return isRoiPositive ? s.positiveROI : s.negativeROI;
     }
     if (!roi) {
       return "";
@@ -60,7 +61,8 @@ export default function TokenItem({
           {!!roi && (
             <div className={`${s.tokenROI} ${applyRoiClass()}`}>
               ROI:
-              <FaArrowDownLong />
+              {isRoiPositive && <FaArrowUpLong />}
+              {!isRoiPositive && <FaArrowDownLong />}
               {roi.toFixed(2)}%
             </div>
           )}
