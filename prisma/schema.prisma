@@ -20,5 +20,17 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   subscribed     Boolean  @default(false)
+  tokenBalances TokenBalance[]
 }
 
+model TokenBalance {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  symbol    String
+  balance   String
+  price     Decimal
+  valueInUSD Decimal
+  logo      String?
+}
