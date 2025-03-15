@@ -238,14 +238,14 @@ export default function PortfolioPageInner() {
   useEffect(() => {
     if (
       !!userBalance &&
-      tokenBalances.length < 1 &&
+      // tokenBalances.length < 1 &&
       !!defaultAccount &&
       provider &&
       !!userId
     ) {
       fetchAvailableAssets(defaultAccount, provider, userId);
     }
-  }, [userBalance, defaultAccount, provider, tokenBalances, userId]);
+  }, [userBalance, defaultAccount, provider, userId]);
 
   useEffect(() => {
     if (tokenBalances.length > 0 && etherPriceInUSD > 0 && userBalance) {
@@ -366,33 +366,29 @@ export default function PortfolioPageInner() {
           <div className={s.section}>
             <h3>Total Portfolio Value: ${totalPortfolioValue}</h3>
           </div>
-          <div className={s.section}>
-            <h3>
-              Ether Balance: {userBalance}
-              {etherPriceInUSD > 0 && userBalance && (
-                <> (~${(userBalance * etherPriceInUSD).toFixed(2)} USD)</>
-              )}
-            </h3>
-          </div>
-          <div className={s.tokenSection}>
-            <h3>Tokens:</h3>
+          <section className={s.statsSection}>
             {tokenBalances.length > 0 && (
               <>
-                {tokenBalances.map((token: any, index: number) => (
-                  <TokenItem
-                    key={index}
-                    token={token}
-                    purchasePrice={purchasePrices[token.symbol] || null}
-                    roi={rois[token.symbol] || null}
-                  />
-                ))}
-                <PieChartComponent tokenBalances={tokenBalances} />
-                {!!rois && <RoiChart rawData={rois} />}
-                {!rois && <div>ROIs not calculated</div>}
+                <div className={s.tokenList}>
+                  <h3>Tokens:</h3>
+                  {tokenBalances.map((token: any, index: number) => (
+                    <TokenItem
+                      key={index}
+                      token={token}
+                      purchasePrice={purchasePrices[token.symbol] || null}
+                      roi={rois[token.symbol] || null}
+                    />
+                  ))}
+                </div>
+                <div className={s.chartsSection}>
+                  <PieChartComponent tokenBalances={tokenBalances} />
+                  {!!rois && <RoiChart rawData={rois} />}
+                  {!rois && <div>ROIs not calculated</div>}
+                </div>
               </>
             )}
             {tokenBalances.length < 1 && <p>No tokens found</p>}
-          </div>
+          </section>
           {errorMessage && <p className={s.error}>{errorMessage}</p>}
         </div>
       )}

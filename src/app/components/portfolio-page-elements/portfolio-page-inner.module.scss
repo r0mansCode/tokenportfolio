@@ -1,7 +1,7 @@
 /* portfolio-page-inner.module.scss */
 
 .container {
-  max-width: 800px;
+  width: fit-content;
   margin: 0 auto;
   padding: 20px;
   background-color: #f8e7ea;
@@ -38,17 +38,24 @@
   color: #d81b60; /* Darker pink on hover */
 }
 
-.tokenSection {
+.statsSection {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
   padding: 15px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tokenSection h3 {
+.statsSection h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #d81b60;
+}
+
+.chartsSection {
+  width: 600px;
 }
 
 .checkoutButtonsContainer {
